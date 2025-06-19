@@ -11,6 +11,7 @@ import Bread from "./components/Bread.tsx";
 import Dairy from "./components/Dairy.tsx";
 import {navItems, productItems} from "./configurations/nav-config.ts";
 import NavigatorDeskTop from "./components/navigation/NavigatorDeskTop.tsx";
+import Login from "./components/Login.tsx";
 
 function App() {
 
@@ -26,7 +27,9 @@ function App() {
                 <Route path={Paths.PRODUCTS} element={<NavigatorDeskTop items={productItems} />}>
                     <Route path={Paths.BREAD} element={<Bread />} />
                     <Route path={Paths.DAIRY} element={<Dairy />} />
+                    <Route path={Paths.BACK} element={<Navigate to={Paths.HOME}/>} />
                 </Route>
+                <Route path={Paths.LOGIN} element={<Login />} />
             </Route>
             <Route path={Paths.ERROR} element={<ErrorPage />} />
             <Route path="*" element={<Navigate to={Paths.ERROR} replace />} />
