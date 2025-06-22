@@ -16,6 +16,7 @@ import Logout from "./servicePages/Logout.tsx";
 import {useAppSelector} from "./redux/hooks.ts";
 import SignUp from "./templates/SignUp.tsx";
 
+
 function App() {
     const {authUser} = useAppSelector(state => state.auth);
 
@@ -42,6 +43,7 @@ function App() {
                 <Route path={Paths.ORDERS} element={<Orders/>}/>
                 <Route path={Paths.CART} element={<ShoppingCart/>}/>
                 <Route path={Paths.PRODUCTS} element={<NavigatorDeskTop items={productItems}/>}>
+                    <Route index element={<Navigate to={Paths.BREAD} replace/>}/>
                     <Route path={Paths.BREAD} element={<Bread/>}/>
                     <Route path={Paths.DAIRY} element={<Dairy/>}/>
                     <Route path={Paths.BACK} element={<Navigate to={Paths.HOME}/>}/>
