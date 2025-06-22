@@ -1,7 +1,7 @@
 import {AppBar, Box, Tab, Tabs} from "@mui/material";
 import type {RouteType} from "../../utils/shop-types.ts";
-import {type FC, useEffect, useState} from "react";
-import {Link, Outlet, useLocation} from "react-router-dom";
+import {type FC, useState} from "react";
+import {Link, Outlet} from "react-router-dom";
 
 type Props = {
     items: RouteType[]
@@ -10,13 +10,6 @@ type Props = {
 
 const NavigatorDeskTop: FC<Props> = ({items}) => {
     const [value, setValue] = useState(0)
-    // const {pathname} = useLocation();
-    //
-    // useEffect(() => {
-    //     const index = items.findIndex(item => item.path === pathname.substring())
-    //     if(value !== index)
-    //         setValue(Math.max(index, 0))
-    // }, [pathname]);
 
     const handleOnChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
