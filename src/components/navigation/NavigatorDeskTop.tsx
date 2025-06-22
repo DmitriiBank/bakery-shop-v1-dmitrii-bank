@@ -9,11 +9,13 @@ type Props = {
 }
 
 const NavigatorDeskTop: FC<Props> = ({items}) => {
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(0);
+
+
 
     const handleOnChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
-    }
+    };
 
     return (
         <Box sx={{mt: "50px"}}>

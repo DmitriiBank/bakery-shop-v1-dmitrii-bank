@@ -10,6 +10,7 @@ export enum Paths {
     BACK = 'back',
     LOGIN = 'login',
     LOGOUT = 'logout',
+    SIGNUP = 'sign-up',
 }
 
 export enum Roles {
@@ -17,9 +18,15 @@ export enum Roles {
     USER = 1,
     ADMIN = 2,
     NO_AUTH = 3,
+    AUTH = 4,
 }
 export type RouteType = {
     path: Paths,
     title: string,
     role?: Roles
+}
+
+export type LoginData = {
+    email: string,
+    password: string,
 }
