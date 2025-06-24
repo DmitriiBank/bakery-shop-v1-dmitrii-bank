@@ -14,7 +14,9 @@ import NavigatorDeskTop from "./components/navigation/NavigatorDeskTop.tsx";
 import Login from "./servicePages/Login.tsx";
 import Logout from "./servicePages/Logout.tsx";
 import {useAppSelector} from "./redux/hooks.ts";
-import SignUp from "./templates/SignUp.tsx";
+import Registration from "./servicePages/Registration.tsx";
+
+
 
 
 function App() {
@@ -50,7 +52,7 @@ function App() {
                 </Route>
                 <Route path={Paths.LOGIN} element={<Login/>}/>
                 <Route path={Paths.LOGOUT} element={<Logout/>}/>
-                <Route path={Paths.SIGNUP} element={<SignUp/>}/>
+                <Route path={Paths.REGISTER} element={<Registration/>}/>
             </Route>
             <Route path={Paths.ERROR} element={<ErrorPage/>}/>
             <Route path="*" element={<Navigate to={Paths.ERROR} replace/>}/>

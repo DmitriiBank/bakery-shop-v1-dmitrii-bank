@@ -24,3 +24,10 @@
   flex-direction: column;
   align-items: start;
 }
+
+.avatar{
+  justify-content: center;
+  text-align: center;
+  margin-left: auto;
+  color: black;
+}
