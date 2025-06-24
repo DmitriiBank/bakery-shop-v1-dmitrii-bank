@@ -50,7 +50,7 @@ function App() {
                 </Route>
                 <Route path={Paths.LOGIN} element={<Login/>}/>
                 <Route path={Paths.LOGOUT} element={<Logout/>}/>
-            <Route path={Paths.SIGNUP} element={<SignUp/>}/>
+                <Route path={Paths.SIGNUP} element={<SignUp/>}/>
             </Route>
             <Route path={Paths.ERROR} element={<ErrorPage/>}/>
             <Route path="*" element={<Navigate to={Paths.ERROR} replace/>}/>
