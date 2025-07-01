@@ -1,4 +1,4 @@
-// authSlice.ts
+
 import {createSlice} from "@reduxjs/toolkit";
 
 type AuthState = {

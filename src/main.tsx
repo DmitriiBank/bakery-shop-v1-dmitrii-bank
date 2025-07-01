@@ -5,13 +5,16 @@ import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {store} from "./redux/store.ts";
 import {Provider} from "react-redux";
+import {setProducts} from "./firebase/firebaseDBService.ts";
 
+setProducts().then(() => {
+    createRoot(document.getElementById('root')!).render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </Provider>
 
-createRoot(document.getElementById('root')!).render(
-  <Provider store={store}>
-      <BrowserRouter>
-          <App />
-      </BrowserRouter>
-  </Provider>
+    )
+})
 
-)

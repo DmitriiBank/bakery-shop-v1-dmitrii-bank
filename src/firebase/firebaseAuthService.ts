@@ -1,4 +1,4 @@
-// firebaseAuthService.ts
+
 import {
     signOut,
     signInWithEmailAndPassword,
