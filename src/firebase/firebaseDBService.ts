@@ -18,7 +18,7 @@ const categoryColl = collection(db, "category");
 
 
 export const addProduct = async (product: ProductType) => {
-    product.id = getRandomNumber(0, 9999) + "";
+    product.id = getRandomNumber(10000, 99999) + "";
     const ref = doc(prodColl, product.id);
     await setDoc(ref, product);
 }
