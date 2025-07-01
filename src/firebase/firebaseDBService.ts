@@ -10,13 +10,15 @@ import {db} from "../configurations/firebase-config";
 import type {Category, ProductType} from "../utils/shop-types";
 import {getRandomNumber} from "../utils/tools";
 import productConfig from "../configurations/products-config.json"
+import {Observable} from "rxjs";
+import {collectionData} from "rxfire/firestore"
 
 const prodColl = collection(db, "product_collection");
 const categoryColl = collection(db, "category");
 
 
 export const addProduct = async (product: ProductType) => {
-    product.id = getRandomNumber(10000, 9999) + "";
+    product.id = getRandomNumber(0, 9999) + "";
     const ref = doc(prodColl, product.id);
     await setDoc(ref, product);
 }
@@ -82,4 +84,8 @@ export const setProducts = async () => {
         }
     }
     return count;
+}
+
+export const getProducts = ():Observable<ProductType[]> => {
+    return collectionData(prodColl) as Observable<ProductType[]>
 }

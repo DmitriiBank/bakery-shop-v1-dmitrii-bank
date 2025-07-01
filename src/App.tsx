@@ -1,6 +1,11 @@
 import './App.css'
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Paths, Roles, type RouteType} from "./utils/shop-types.ts";
+import {
+    Paths,
+    type ProductType,
+    Roles,
+    type RouteType
+} from "./utils/shop-types.ts";
 import Home from "./components/Home.tsx";
 import Customers from "./components/Customers.tsx";
 import Orders from "./components/Orders.tsx";
@@ -13,14 +18,27 @@ import {navItems, productItems} from "./configurations/nav-config.ts";
 import NavigatorDeskTop from "./components/navigation/NavigatorDeskTop.tsx";
 import Login from "./servicePages/Login.tsx";
 import Logout from "./servicePages/Logout.tsx";
-import {useAppSelector} from "./redux/hooks.ts";
+import {useAppDispatch, useAppSelector} from "./redux/hooks.ts";
 import Registration from "./servicePages/Registration.tsx";
+import {useEffect} from "react";
+import {getProducts} from "./firebase/firebaseDBService.ts";
+import {prodsUpd} from "./redux/slices/productSlice.ts";
 
 
 
 
 function App() {
     const {authUser} = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        const subscription = getProducts().subscribe({
+            next: (prods: ProductType[]) => {
+               dispatch(prodsUpd(prods))},
+        })
+        return () => {
+            subscription.unsubscribe()
+        }
+    }, []);
 
     const predicate = (item: RouteType) => {
         if (item.role === Roles.ALL) return true;
