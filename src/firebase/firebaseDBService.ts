@@ -17,6 +17,7 @@ const prodColl = collection(db, "product_collection");
 const categoryColl = collection(db, "category");
 
 
+
 export const addProduct = async (product: ProductType) => {
     product.id = getRandomNumber(10000, 99999) + "";
     const ref = doc(prodColl, product.id);
@@ -25,6 +26,10 @@ export const addProduct = async (product: ProductType) => {
 
 export const addCategory = async (category: Category) => {
     const ref = doc(categoryColl, category.category_name);
+    const snapshot = await getDoc(ref);
+    if (snapshot.exists()) {
+        throw new Error('Category already exists!');
+    }
     await setDoc(ref, category);
 }
 
@@ -48,17 +53,11 @@ export const getProduct = async (id: string) => {
     const ref = doc(prodColl, id);
     return await getDoc(ref);
 }
-
-// export const isCategoryExists = async (name: string) => {
-//     const ref = doc(prodColl, name);
-//     const res = await getDoc(ref);
-//     return res.exists()
-// }
-
-export const isCategoryExists = async (name: string) => {
-    const found = productConfig.some(product => product.name.includes(name));
-    return found;
-};
+export const isCategoryExists = async (name:string) => {
+    const ref = doc(categoryColl, name);
+    const res = await getDoc(ref);
+    return res.exists();
+}
 
 
 export const setProducts = async () => {
