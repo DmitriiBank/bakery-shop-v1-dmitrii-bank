@@ -56,3 +56,4 @@ export type ShopCartProdType = {
     count: number
 }
 
+export type TableShopCartDataType = ProductType & {count: number, amount: number}

@@ -1,5 +1,6 @@
 
 import SvgIcon from '@mui/material/SvgIcon';
+import {Avatar} from "@mui/material";
 
 export function SitemarkIcon() {
     return (
@@ -80,5 +81,11 @@ export function GoogleIcon() {
                 />
             </svg>
         </SvgIcon>
+    );
+}
+
+export function TrashIcon() {
+    return (
+        <Avatar src='/images/trash_icon.png' alt="Trash Icon"/>
     );
 }

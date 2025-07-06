@@ -21,7 +21,9 @@ import Logout from "./servicePages/Logout.tsx";
 import {useAppDispatch, useAppSelector} from "./redux/hooks.ts";
 import Registration from "./servicePages/Registration.tsx";
 import {useEffect} from "react";
-import {getProducts} from "./firebase/firebaseDBService.ts";
+import {
+    getProducts,
+} from "./firebase/firebaseDBService.ts";
 import {prodsUpd} from "./redux/slices/productSlice.ts";
 import {resetCart, setCart} from "./redux/slices/cartSlice.ts";
 import {getCartProducts} from "./firebase/firebaseCartService.ts";
@@ -30,6 +32,7 @@ import {getCartProducts} from "./firebase/firebaseCartService.ts";
 function App() {
     const {authUser} = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch()
+
     useEffect(() => {
         const subscription = getProducts().subscribe({
             next: (prods: ProductType[]) => {
@@ -40,15 +43,17 @@ function App() {
             subscription.unsubscribe()
         }
     }, []);
+
     useEffect(() => {
         if (!authUser || authUser.includes('admin')) dispatch(resetCart())
         else {
-            const subscribtion = getCartProducts(`${authUser}_collectiob`);
-            subscribtion.subscribe({
+            const subscription = getCartProducts(`${authUser}_collection`);
+            subscription.subscribe({
                 next: (cartProducts: ShopCartProdType[]) => dispatch(setCart(cartProducts))
             })
         }
-    }, []);
+    }, [authUser]);
+
     const predicate = (item: RouteType) => {
         if (item.role === Roles.ALL) return true;
         if (item.role === Roles.NO_AUTH) return !authUser;

@@ -31,7 +31,7 @@ export const addProductUnitToCart = async (collName: string, id: string) => {
     await addProductToCart(collName, {cartProdId: id, count: count + 1})
 }
 
-export const removeProductUnitToCart = async (collName: string, id: string) => {
+export const removeProductUnitFromCart = async (collName: string, id: string) => {
     const ref = doc(db, collName, id)
     let count = 0;
     const temp = await getDoc(ref)

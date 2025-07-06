@@ -13,6 +13,7 @@ import productConfig from "../configurations/products-config.json"
 import {Observable} from "rxjs";
 import {collectionData} from "rxfire/firestore"
 
+
 const prodColl = collection(db, "product_collection");
 const categoryColl = collection(db, "category");
 
@@ -53,6 +54,7 @@ export const getProduct = async (id: string) => {
     const ref = doc(prodColl, id);
     return await getDoc(ref);
 }
+
 export const isCategoryExists = async (name:string) => {
     const ref = doc(categoryColl, name);
     const res = await getDoc(ref);
