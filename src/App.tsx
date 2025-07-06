@@ -4,7 +4,7 @@ import {
     Paths,
     type ProductType,
     Roles,
-    type RouteType
+    type RouteType, type ShopCartProdType
 } from "./utils/shop-types.ts";
 import Home from "./components/Home.tsx";
 import Customers from "./components/Customers.tsx";
@@ -23,8 +23,8 @@ import Registration from "./servicePages/Registration.tsx";
 import {useEffect} from "react";
 import {getProducts} from "./firebase/firebaseDBService.ts";
 import {prodsUpd} from "./redux/slices/productSlice.ts";
-
-
+import {resetCart, setCart} from "./redux/slices/cartSlice.ts";
+import {getCartProducts} from "./firebase/firebaseCartService.ts";
 
 
 function App() {
@@ -33,13 +33,22 @@ function App() {
     useEffect(() => {
         const subscription = getProducts().subscribe({
             next: (prods: ProductType[]) => {
-               dispatch(prodsUpd(prods))},
+                dispatch(prodsUpd(prods))
+            },
         })
         return () => {
             subscription.unsubscribe()
         }
     }, []);
-
+    useEffect(() => {
+        if (!authUser || authUser.includes('admin')) dispatch(resetCart())
+        else {
+            const subscribtion = getCartProducts(`${authUser}_collectiob`);
+            subscribtion.subscribe({
+                next: (cartProducts: ShopCartProdType[]) => dispatch(setCart(cartProducts))
+            })
+        }
+    }, []);
     const predicate = (item: RouteType) => {
         if (item.role === Roles.ALL) return true;
         if (item.role === Roles.NO_AUTH) return !authUser;
@@ -57,23 +66,74 @@ function App() {
         <Routes>
             {/*<Route path={Paths.HOME} element={<Navigator items={navItems}/>}>*/}
             {/*<Route path={Paths.HOME} element={<NavigatorDeskTop items={navItems}/>}>*/}
-            <Route path={Paths.HOME} element={<NavigatorDeskTop items={getRoutes()}/>}>
-                <Route index element={<Home/>}/>
-                <Route path={Paths.CUSTOMERS} element={<Customers/>}/>
-                <Route path={Paths.ORDERS} element={<Orders/>}/>
-                <Route path={Paths.CART} element={<ShoppingCart/>}/>
-                <Route path={Paths.PRODUCTS} element={<NavigatorDeskTop items={productItems}/>}>
-                    <Route index element={<Navigate to={Paths.BREAD} replace/>}/>
-                    <Route path={Paths.BREAD} element={<Bread/>}/>
-                    <Route path={Paths.DAIRY} element={<Dairy/>}/>
-                    <Route path={Paths.BACK} element={<Navigate to={Paths.HOME}/>}/>
+            <Route
+                path={Paths.HOME}
+                element={<NavigatorDeskTop items={getRoutes()} />}
+            >
+                <Route
+                    index
+                    element={<Home />}
+                />
+                <Route
+                    path={Paths.CUSTOMERS}
+                    element={<Customers />}
+                />
+                <Route
+                    path={Paths.ORDERS}
+                    element={<Orders />}
+                />
+                <Route
+                    path={Paths.CART}
+                    element={<ShoppingCart />}
+                />
+                <Route
+                    path={Paths.PRODUCTS}
+                    element={<NavigatorDeskTop items={productItems} />}
+                >
+                    <Route
+                        index
+                        element={<Navigate
+                            to={Paths.BREAD}
+                            replace
+                        />}
+                    />
+                    <Route
+                        path={Paths.BREAD}
+                        element={<Bread />}
+                    />
+                    <Route
+                        path={Paths.DAIRY}
+                        element={<Dairy />}
+                    />
+                    <Route
+                        path={Paths.BACK}
+                        element={<Navigate to={Paths.HOME} />}
+                    />
                 </Route>
-                <Route path={Paths.LOGIN} element={<Login/>}/>
-                <Route path={Paths.LOGOUT} element={<Logout/>}/>
-                <Route path={Paths.REGISTER} element={<Registration/>}/>
+                <Route
+                    path={Paths.LOGIN}
+                    element={<Login />}
+                />
+                <Route
+                    path={Paths.LOGOUT}
+                    element={<Logout />}
+                />
+                <Route
+                    path={Paths.REGISTER}
+                    element={<Registration />}
+                />
             </Route>
-            <Route path={Paths.ERROR} element={<ErrorPage/>}/>
-            <Route path="*" element={<Navigate to={Paths.ERROR} replace/>}/>
+            <Route
+                path={Paths.ERROR}
+                element={<ErrorPage />}
+            />
+            <Route
+                path="*"
+                element={<Navigate
+                    to={Paths.ERROR}
+                    replace
+                />}
+            />
         </Routes>
 
     )

@@ -1,9 +1,13 @@
 import {useAppSelector} from "../../redux/hooks";
 import {CardActions, CardContent, Grid, Card, CardMedia, Typography, Button} from "@mui/material";
 import type {ProductType} from "../../utils/shop-types";
+import {useNavigate} from "react-router-dom";
+import {addProductUnitToCart} from "../../firebase/firebaseCartService.ts";
 
 export const BreadProductsUser = () => {
     const {currProducts} = useAppSelector(state => state.products);
+   const navigate = useNavigate()
+    const {authUser} = useAppSelector(state => state.auth)
     return (
         <Grid container>
             {currProducts.map((item:ProductType) =>
@@ -24,7 +28,14 @@ export const BreadProductsUser = () => {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button size="small">+</Button>
+                            <Button size="small"
+                            onClick={
+                                async() => {
+                                    if(!authUser) navigate('/login');
+                                    await addProductUnitToCart(`${authUser}_collection`, item.id!)
+                                }
+                            }
+                            >+</Button>
                             <Typography>0</Typography>
                             <Button size="small">-</Button>
                         </CardActions>
